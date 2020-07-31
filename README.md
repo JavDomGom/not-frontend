@@ -1,2 +1,1 @@
-# not-frontend
-Not Social Network (Front-end)
+# Not Social Network (Front-end)
