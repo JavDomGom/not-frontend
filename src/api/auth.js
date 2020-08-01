@@ -35,6 +35,7 @@ export function signUpApi(user) {
 
 export function logInApi(user) {
   const url = `${API_HOST}/login`;
+
   const data = {
     ...user,
     email: user.email.toLowerCase(),

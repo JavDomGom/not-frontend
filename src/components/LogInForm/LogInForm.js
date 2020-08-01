@@ -8,7 +8,7 @@ import { logInApi, setTokenApi } from "../../api/auth";
 import "./LogInForm.scss";
 
 export default function LogInForm(props) {
-  const { setRefreshCheckLogin } = props;
+  const { setRefreshCheckLogIn } = props;
   const [formData, setFormData] = useState(initialFormValue());
   const [logInLoading, setLogInLoading] = useState(false);
 
@@ -34,7 +34,7 @@ export default function LogInForm(props) {
               toast.warning(response.message);
             } else {
               setTokenApi(response.token);
-              setRefreshCheckLogin(true);
+              setRefreshCheckLogIn(true);
             }
           })
           .catch(() => {
@@ -77,11 +77,11 @@ export default function LogInForm(props) {
       </Form>
     </div>
   );
+}
 
-  function initialFormValue() {
-    return {
-      email: "",
-      password: "",
-    };
-  }
+function initialFormValue() {
+  return {
+    email: "",
+    password: "",
+  };
 }
