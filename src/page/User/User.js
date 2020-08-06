@@ -16,8 +16,6 @@ function User(props) {
   const { params } = match;
   const loggedUser = useAuth();
 
-  console.log(loggedUser);
-
   useEffect(() => {
     getUserApi(params.id)
       .then((response) => {

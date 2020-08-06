@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 
 export default function InfoUser(props) {
   const { user } = props;
-  console.log(user);
   return (
     <div className="info-user">
       <h2 className="name">
