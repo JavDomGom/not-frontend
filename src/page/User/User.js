@@ -6,13 +6,16 @@ import useAuth from "../../hooks/useAuth";
 import BasicLayout from "../../layout/BasicLayout";
 import BannerAvatar from "../../components/User/BannerAvatar";
 import InfoUser from "../../components/User/InfoUser";
+import ListMessages from "../../components/ListMessages";
 import { getUserApi } from "../../api/user";
+import { getUserMessagesApi } from "../../api/message";
 
 import "./User.scss";
 
 function User(props) {
   const { match } = props;
   const [user, setUser] = useState(null);
+  const [messages, setMessages] = useState(null);
   const { params } = match;
   const loggedUser = useAuth();
 
@@ -27,6 +30,16 @@ function User(props) {
       });
   }, [params]);
 
+  useEffect(() => {
+    getUserMessagesApi(params.id, 1)
+      .then((response) => {
+        setMessages(response);
+      })
+      .catch(() => {
+        setMessages([]);
+      });
+  }, [params]);
+
   return (
     <BasicLayout className="user">
       <div className="user__title">
@@ -36,7 +49,10 @@ function User(props) {
       </div>
       <BannerAvatar user={user} loggedUser={loggedUser} />
       <InfoUser user={user} />
-      <div className="user__messages">User messages</div>
+      <div className="user__messages">
+        <h3>Messages</h3>
+        {messages && <ListMessages messages={messages} />}
+      </div>
     </BasicLayout>
   );
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +8,7 @@ import {
   faUsers,
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
+import MessageModal from "../Modal/MessageModal";
 import { logOutApi } from "../../api/auth";
 import useAuth from "../../hooks/useAuth";
 import LogoWhiteNot from "../../assets/png/not-logo-white.png";
@@ -16,6 +17,7 @@ import "./LeftMenu.scss";
 
 export default function LeftMenu(props) {
   const { setRefreshCheckLogIn } = props;
+  const [showModal, setShowModal] = useState(false);
   const user = useAuth();
 
   const logOut = () => {
@@ -44,7 +46,9 @@ export default function LeftMenu(props) {
         LogOut
       </Link>
 
-      <Button>New message</Button>
+      <Button onClick={() => setShowModal(true)}>New message</Button>
+
+      <MessageModal show={showModal} setShow={setShowModal} />
     </div>
   );
 }
