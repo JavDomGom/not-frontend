@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "react-bootstrap";
 import { map } from "lodash";
+import moment from "moment";
 import AvatarNotFound from "../../assets/png/avatar-no-found.png";
 import { API_HOST } from "../../utils/constants";
 import { getUserApi } from "../../api/user";
+import { replaceURLWithHTMLLinks } from "../../utils/functions";
 
 import "./ListMessages.scss";
 
@@ -37,6 +39,17 @@ function Message(props) {
   return (
     <div className="message">
       <Image className="avatar" src={avatarUrl} roundedCircle />
+      <div>
+        <div className="name">
+          {userInfo?.name} {userInfo?.lastName}
+          <span>{moment(message.datetime).calendar()}</span>
+        </div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: replaceURLWithHTMLLinks(message.message),
+          }}
+        />
+      </div>
     </div>
   );
 }

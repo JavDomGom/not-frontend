@@ -13,9 +13,11 @@ import { getUserMessagesApi } from "../../api/message";
 import "./User.scss";
 
 function User(props) {
-  const { match } = props;
+  const { match, setRefreshCheckLogIn } = props;
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState(null);
+  const [page, setPage] = useState(1);
+  const [loadingMessages, setLoadingMessages] = useState(false);
   const { params } = match;
   const loggedUser = useAuth();
 
@@ -40,8 +42,23 @@ function User(props) {
       });
   }, [params]);
 
+  const moreData = () => {
+    const tmpPage = page + 1;
+    setLoadingMessages(true);
+
+    getUserMessagesApi(params.id, tmpPage).then((response) => {
+      if (!response) {
+        setLoadingMessages(0);
+      } else {
+        setMessages([...messages, ...response]);
+        setPage(tmpPage);
+        setLoadingMessages(false);
+      }
+    });
+  };
+
   return (
-    <BasicLayout className="user">
+    <BasicLayout className="user" setRefreshCheckLogIn={setRefreshCheckLogIn}>
       <div className="user__title">
         <h2>
           {user ? `${user.name} ${user.lastName}` : "User does not exist."}
@@ -52,6 +69,19 @@ function User(props) {
       <div className="user__messages">
         <h3>Messages</h3>
         {messages && <ListMessages messages={messages} />}
+        <Button onClick={moreData}>
+          {!loadingMessages ? (
+            loadingMessages !== 0 && "Getting more messages"
+          ) : (
+            <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              arian-hidden="true"
+            />
+          )}
+        </Button>
       </div>
     </BasicLayout>
   );

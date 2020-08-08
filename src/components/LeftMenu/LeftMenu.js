@@ -16,6 +16,7 @@ import LogoWhiteNot from "../../assets/png/not-logo-white.png";
 import "./LeftMenu.scss";
 
 export default function LeftMenu(props) {
+  console.log(props);
   const { setRefreshCheckLogIn } = props;
   const [showModal, setShowModal] = useState(false);
   const user = useAuth();
