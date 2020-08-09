@@ -50,3 +50,23 @@ export function getUserMessagesApi(idUser, page) {
       return err;
     });
 }
+
+export function getFollowersMessagesApi(page = 1) {
+  const url = `${API_HOST}/getFollowersMsg?page=${page}`;
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${getTokenApi()}`,
+    },
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => {
+      return err;
+    });
+}

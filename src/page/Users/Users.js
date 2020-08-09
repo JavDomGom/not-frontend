@@ -15,6 +15,7 @@ function Users(props) {
   const [users, setUsers] = useState(null);
   const params = useUserQuery(location);
   const [userType, setUserType] = useState(params.userType || "follow");
+  const [loadingUsers, setLoadingUsers] = useState(false);
 
   const [onSearch] = useDebouncedCallback((value) => {
     setUsers(null);
@@ -26,10 +27,20 @@ function Users(props) {
   useEffect(() => {
     getUsersApi(queryString.stringify(params))
       .then((response) => {
-        if (isEmpty(response)) {
-          setUsers([]);
+        // eslint-disable-next-line eqeqeq
+        if (params.page == 1) {
+          if (isEmpty(response)) {
+            setUsers([]);
+          } else {
+            setUsers(response);
+          }
         } else {
-          setUsers(response);
+          if (!response) {
+            setLoadingUsers(0);
+          } else {
+            setUsers([...users, ...response]);
+            setLoadingUsers(false);
+          }
         }
       })
       .catch(() => {
@@ -52,6 +63,14 @@ function Users(props) {
         page: 1,
         search: "",
       }),
+    });
+  };
+
+  const moreData = () => {
+    setLoadingUsers(true);
+    const newPage = parseInt(params.page) + 1;
+    history.push({
+      search: queryString.stringify({ ...params, page: newPage }),
     });
   };
 
@@ -91,7 +110,22 @@ function Users(props) {
           Searching for users
         </div>
       ) : (
-        <ListUsers users={users} />
+        <>
+          <ListUsers users={users} />
+          <Button onClick={moreData} className="load-more">
+            {!loadingUsers ? (
+              loadingUsers !== 0 && "Loading more users"
+            ) : (
+              <Spinner
+                as="span"
+                animation="grow"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+              />
+            )}
+          </Button>
+        </>
       )}
     </BasicLayout>
   );
