@@ -4,7 +4,6 @@ import localization from "moment/locale/es";
 import { Location, WebSite, DateOfBirth } from "../../../utils/icons";
 
 import "./InfoUser.scss";
-import { Link } from "react-router-dom";
 
 export default function InfoUser(props) {
   const { user } = props;
@@ -39,6 +38,10 @@ export default function InfoUser(props) {
             {moment(user.dateOfBirth).locale("es", localization).format("LL")}
           </p>
         )}
+      </div>
+      <div className="follow-info">
+        <p>Following 0</p>
+        <p>Followers 0</p>
       </div>
     </div>
   );
