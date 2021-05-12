@@ -14,7 +14,7 @@
     "classnames": "^2.2.6",
     "date-fns": "^2.15.0",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "node-forge": "0.10.0",
     "node-sass": "^4.14.1",
